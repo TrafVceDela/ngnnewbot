@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Game Predictor</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .loading-screen {
+        font-family: monospace;
+        background: #000;
+        color: #00ff88;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        flex-direction: column;
+        z-index: 50;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+      .hidden-screen {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white font-sans">
+    <!-- LOADING -->
+    <div id="loading" class="loading-screen">
+      <p>Loading... Please wait while we set up your experience.</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContent" class="hidden-screen">
+      <!-- Start Section -->
+      <section
+        class="min-h-screen flex flex-col items-center justify-center px-4 text-center"
+        id="startSection"
+      >
+        <h2 class="text-3xl md:text-5xl font-bold mb-6">
+          Earn Real Money with AI Game Predictions
+        </h2>
+        <p class="max-w-xl mb-8 text-gray-300">
+          Join thousands of users using our smart AI to win in Aviator, Mines,
+          and more.
+        </p>
+        <button
+          id="startButton"
+          class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-xl text-lg transition"
+        >
+          Start Earning Now
+        </button>
+
+        <!-- ID INPUT -->
+        <div id="idInputSection" class="hidden mt-6 max-w-sm w-full">
+          <input
+            id="betIdInput"
+            type="text"
+            inputmode="numeric"
+            pattern="\d*"
+            placeholder="Your 1xBet ID"
+            class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+          <button
+            id="submitIdBtn"
+            class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg"
+          >
+            Submit ID
+          </button>
+          <p id="inputError" class="hidden mt-2 text-red-500 text-sm">
+            Please enter a valid numeric 1xBet ID.
+          </p>
+        </div>
+      </section>
+
+      <!-- SIGNAL SECTION -->
+      <section
+        id="signalSection"
+        class="hidden flex flex-col items-center justify-center min-h-screen"
+      >
+        <h2 class="text-3xl font-bold text-green-400 mb-4">
+          📡 AI Signal Generator
+        </h2>
+        <button
+          id="getSignalBtn"
+          class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-lg text-xl transition"
+        >
+          Get Signal
+        </button>
+        <p id="signalOutput" class="mt-6 text-3xl font-mono text-green-300"></p>
+      </section>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+      // Auto-hide loader
+      setTimeout(() => {
+        document.getElementById("loading").classList.add("hidden-screen");
+        document
+          .getElementById("mainContent")
+          .classList.remove("hidden-screen");
+      }, 3000);
+
+      // Elements
+      const startButton = document.getElementById("startButton");
+      const idInputSection = document.getElementById("idInputSection");
+      const submitIdBtn = document.getElementById("submitIdBtn");
+      const betIdInput = document.getElementById("betIdInput");
+      const inputError = document.getElementById("inputError");
+      const startSection = document.getElementById("startSection");
+      const signalSection = document.getElementById("signalSection");
+      const getSignalBtn = document.getElementById("getSignalBtn");
+      const signalOutput = document.getElementById("signalOutput");
+
+      // Show ID input
+      startButton.addEventListener("click", () => {
+        startButton.classList.add("hidden");
+        idInputSection.classList.remove("hidden");
+      });
+
+      // Submit ID
+      submitIdBtn.addEventListener("click", () => {
+        const idValue = betIdInput.value.trim();
+        const isValid = /^\d{6,}$/.test(idValue);
+        if (!isValid) {
+          inputError.classList.remove("hidden");
+        } else {
+          inputError.classList.add("hidden");
+          startSection.classList.add("hidden");
+          signalSection.classList.remove("hidden");
+        }
+      });
+
+      // Get Signal with delay
+      getSignalBtn.addEventListener("click", () => {
+        signalOutput.textContent = "AI analysis in progress...";
+        getSignalBtn.disabled = true;
+        setTimeout(() => {
+          const rand = (Math.random() * (100 - 1) + 1).toFixed(2);
+          signalOutput.textContent = `${rand}x`;
+          getSignalBtn.disabled = false;
+        }, 1500);
+      });
+    </script>
+  </body>
+</html>
